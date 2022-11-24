@@ -6,7 +6,6 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './constants/';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-// import { PersistGate } from 'redux-persist/integration/react';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -1,27 +1,24 @@
 import { List, Item, Text, Button } from './ContactList.styled';
 import { Loader } from 'components/Loader/Loader';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { deleteContact } from 'redux/contactsSlice';
-// import { getContacts, getFilterValue } from 'redux/contactsSlice';
+import { getFilterValue } from 'redux/filterSlice';
+import { useSelector } from 'react-redux';
 import {
   useGetContactsQuery,
   useDeleteContactMutation,
 } from 'redux/contactsSlice';
 
 export function ContactList() {
-  const { data, isFetching, error } = useGetContactsQuery();
+  const { data: contacts, isFetching, error } = useGetContactsQuery();
   const [deleteContact] = useDeleteContactMutation();
-  // const dispatch = useDispatch();
 
-  // const filter = useSelector(getFilterValue);
-  // const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilterValue);
 
-  // const visibleContacts = () => {
-  //   const normalizeFilter = filter.toLocaleLowerCase();
-  //   return contacts.filter(contact =>
-  //     contact.name.toLocaleLowerCase().includes(normalizeFilter)
-  //   );
-  // };
+  const visibleContacts = () => {
+    const normalizeFilter = filter.toLocaleLowerCase();
+    return contacts.filter(contact =>
+      contact.name.toLocaleLowerCase().includes(normalizeFilter)
+    );
+  };
 
   return (
     <div>
@@ -30,7 +27,7 @@ export function ContactList() {
         <Loader />
       ) : (
         <List>
-          {data.map(contact => {
+          {visibleContacts().map(contact => {
             return (
               <Item key={contact.id}>
                 <Text>
